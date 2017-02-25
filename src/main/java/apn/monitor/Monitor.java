@@ -13,7 +13,7 @@ public class Monitor  implements MonitorInterface
 	public Monitor()
 	{
 		services = new HashMap<>();
-			
+		//monitoring thread	
 		Thread monitoring = new Thread(new Runnable(){
 			@Override
 			public void run() 
@@ -40,12 +40,22 @@ public class Monitor  implements MonitorInterface
 		monitoring.start();
 	}
 	
+	/**
+	 * stops Monitoring thread
+	 */
 	public void stopMonitoring()
 	{
 		isRunning = false;
 		LoggingUnit.log.debug("Monitor thread shutting down");
 	}
 	
+	/**
+	 * adding Caller without grace time
+	 * @param caller - Caller object
+	 * @param url - Service url
+	 * @param port - Service port
+	 * @param period -Service poling period in seconds
+	 */
 	public void addCaller(Caller caller, String url, int port, float period)
 	{
 		if (!services.containsKey(url+":"+String.valueOf(port)))
@@ -54,6 +64,14 @@ public class Monitor  implements MonitorInterface
 			
 	}
 	
+	/**
+	 * adding Caller without grace time
+	 * @param caller - Caller object
+	 * @param url - Service url
+	 * @param port - Service port
+	 * @param period -Service poling period in seconds
+	 * @param graceTime -Waiting time before notifying caller that service is Down
+	 */
 	public void addCaller(Caller caller, String url, int port, float period, float graceTime)
 	{
 		if (!services.containsKey(url+":"+String.valueOf(port)))

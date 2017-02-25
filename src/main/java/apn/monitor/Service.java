@@ -58,6 +58,7 @@ public class Service
 		}
 	}
 	
+	//checking if service is up or down
 	public void checkServiceStatus()
 	{
 		LoggingUnit.log.debug("Checking service " +serviceID+ " status");
