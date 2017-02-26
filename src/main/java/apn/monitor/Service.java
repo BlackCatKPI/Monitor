@@ -50,7 +50,7 @@ public class Service
 			{
 				if (timeSinceLast>1f)
 				{
-					checkServiceStatus();
+					lastStatus = checkServiceStatus();
 					timeSinceLast = 0f;
 				}
 				checker.setCurrentStatus(lastStatus);
@@ -59,16 +59,16 @@ public class Service
 	}
 	
 	//checking if service is up or down
-	public void checkServiceStatus()
+	public ServiceStatus checkServiceStatus()
 	{
 		LoggingUnit.log.debug("Checking service " +serviceID+ " status");
 		try (Socket s = new Socket(url, port))
 		{
-			lastStatus = ServiceStatus.ON;
+			return ServiceStatus.ON;
 		}
 		catch(IOException e)
 		{
-			lastStatus = ServiceStatus.OFF;
+			return ServiceStatus.OFF;
 		}
 	}
 	

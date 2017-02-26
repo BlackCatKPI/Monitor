@@ -7,7 +7,7 @@ import apn.util.LoggingUnit;
 public class Monitor  implements MonitorInterface
 {
 
-	private HashMap<String,Service> services; 
+	protected HashMap<String,Service> services; 
 	private boolean isRunning;
 		
 	public Monitor()
@@ -58,8 +58,7 @@ public class Monitor  implements MonitorInterface
 	 */
 	public void addCaller(Caller caller, String url, int port, float period)
 	{
-		if (!services.containsKey(url+":"+String.valueOf(port)))
-			services.put(url+":"+String.valueOf(port), new Service(url,port));
+		checkServiceExist(url,port);
 		services.get(url+":"+String.valueOf(port)).addCaller(caller, period); 
 			
 	}
@@ -74,11 +73,17 @@ public class Monitor  implements MonitorInterface
 	 */
 	public void addCaller(Caller caller, String url, int port, float period, float graceTime)
 	{
-		if (!services.containsKey(url+":"+String.valueOf(port)))
-			services.put(url+":"+String.valueOf(port), new Service(url,port));
+		checkServiceExist(url,port);
 		services.get(url+":"+String.valueOf(port)).addCaller(caller, period,graceTime); 
 	}
 	
+	protected void checkServiceExist(String url, int port)
+	{
+		String serviceID = url+":"+String.valueOf(port); 
+		if (!services.containsKey(serviceID))
+			services.put(serviceID, new Service(url,port));
+	}
+		
 	public static void main(String args[])
 	{
 		new Monitor();		 
